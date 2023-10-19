@@ -8,7 +8,8 @@ const Intasend = require('intasend-node');
 
 
 // firebase admin setup
-let serviceAccount = require("./ecom-try-fullstack-2-firebase-adminsdk-86lsr-af05397965.json");
+// let serviceAccount = require("./ecom-try-fullstack-2-firebase-adminsdk-86lsr-af05397965.json");
+let serviceAccount = process.env.FIREBASE_CONFIG;
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
