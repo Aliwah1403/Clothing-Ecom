@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clothing : Add Product</title>
+
+    <link rel="stylesheet" href="../css/signup.css" />
+    <link rel="stylesheet" href="../css/addProduct.css" />
+  </head>
+  <body>
+    <img src="../images/loader.gif" class="loader" alt="loader-gif" />
+
+    <div class="alert-box">
+      <img src="../images/error.png" alt="error-message" class="alert-img" />
+      <p class="alert-msg"></p>
+    </div>
+
+    <img src="../images/dark-logo.png" alt="dark-logo" class="logo" />
+
+    <div class="form">
+      <input type="text" placeholder="product name" id="product-name" />
+      <input
+        type="text"
+        placeholder="short description about the product"
+        id="short-des"
+      />
+      <textarea
+        placeholder="detailed description of product"
+        id="des"
+      ></textarea>
+
+      <!-- products being added -->
+      <div class="product-info">
+        <div class="product-image"><p class="text">product image</p></div>
+        <div class="upload-image-sec">
+          <!-- inputs for image upload -->
+          <p class="text">
+            <img src="../images/camera.png" alt="camera-icon" />Upload images
+          </p>
+          <div class="upload-catalouge">
+            <input
+              type="file"
+              hidden
+              id="first-file-upload-btn"
+              class="fileupload"
+            />
+            <label for="first-file-upload-btn" class="upload-image"></label>
+
+            <input
+              type="file"
+              hidden
+              id="second-file-upload-btn"
+              class="fileupload"
+            />
+            <label for="second-file-upload-btn" class="upload-image"></label>
+
+            <input
+              type="file"
+              hidden
+              id="third-file-upload-btn"
+              class="fileupload"
+            />
+            <label for="third-file-upload-btn" class="upload-image"></label>
+
+            <input
+              type="file"
+              hidden
+              id="fourth-file-upload-btn"
+              class="fileupload"
+            />
+            <label for="fourth-file-upload-btn" class="upload-image"></label>
+          </div>
+        </div>
+        <div class="select-sizes">
+          <p class="text">sizes available</p>
+          <div class="sizes">
+            <input type="checkbox" class="size-checkbox" id="xs" value="xs" />
+            <input type="checkbox" class="size-checkbox" id="s" value="s" />
+            <input type="checkbox" class="size-checkbox" id="m" value="m" />
+            <input type="checkbox" class="size-checkbox" id="l" value="l" />
+            <input type="checkbox" class="size-checkbox" id="xl" value="xl" />
+            <input type="checkbox" class="size-checkbox" id="xxl" value="xxl" />
+            <input
+              type="checkbox"
+              class="size-checkbox"
+              id="xxxl"
+              value="xxxl"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="product-price">
+        <input type="number" placeholder="actual price" id="actual-price" />
+        <input type="number" placeholder="discount percentage" id="discount" />
+        <input type="number" placeholder="selling price" id="sell-price" />
+      </div>
+
+      <input
+        type="number"
+        min="10"
+        placeholder="items in stock (minimum 20)"
+        id="stock"
+      />
+
+      <textarea
+        placeholder="Enter categories here, for example - Men, Jeans, Blue Jeans, Rough jeans (you should add men or women tags at start)"
+        id="tags"
+      ></textarea>
+
+      <input type="checkbox" checked id="tac" class="checkbox" />
+      <label for="tac">Clothing takes a 20% share of your total sell</label>
+
+      <div class="buttons">
+        <button class="btn" id="add-btn">Add Product(s)</button>
+        <button class="btn" id="save-btn">Save To Drafts</button>
+      </div>
+    </div>
+
+    <script src="../js/token.js"></script>
+    <script src="../js/addProduct.js"></script>
+  </body>
+</html>
