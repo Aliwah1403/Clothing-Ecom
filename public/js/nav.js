@@ -3,7 +3,9 @@ const createNav = () => {
 
   nav.innerHTML = `
     <div class="nav">
+      <a href="/">
         <img src="../images/dark-logo.png" class="brand-logo" alt="brand_logo" />
+      </a>  
         <div class="nav-items">
           <div class="search">
             <input
@@ -26,6 +28,7 @@ const createNav = () => {
 
       <ul class="links-container">
         <li class="link-item"><a href="/" class="link">Home</a></li>
+        <li class="link-item"><a href="/shop" class="link">Shop</a></li>
         <li class="link-item"><a href="#" class="link">Women</a></li>
         <li class="link-item"><a href="#" class="link">Men</a></li>
         <li class="link-item"><a href="#" class="link">Kids</a></li>

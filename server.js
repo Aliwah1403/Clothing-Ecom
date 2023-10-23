@@ -8,8 +8,8 @@ const Intasend = require('intasend-node');
 
 
 // firebase admin setup
-// let serviceAccount = require("./ecom-try-fullstack-2-firebase-adminsdk-86lsr-af05397965.json");
-let serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG);
+let serviceAccount = require("./ecom-try-fullstack-2-firebase-adminsdk-86lsr-af05397965.json");
+// let serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -321,6 +321,11 @@ app.get('/search/:key', (req, res) => {
   res.sendFile(path.join(staticPath, "search.html"));
 })
 
+// shop page
+app.get('/shop', (req, res) => {
+  res.sendFile(path.join(staticPath, "shop.html"));
+})
+
 // cart page
 app.get('/cart', (req, res) => {
   res.sendFile(path.join(staticPath, "cart.html"));
@@ -356,6 +361,7 @@ app.post('/intasend-checkout', async (req, res) => {
       zipcode: req.body.zipcode,
       amount: req.body.amount,
       host: `${DOMAIN}`,
+      // redirect_url: `${DOMAIN}/success?session_id={checkout_id}&order=${JSON.stringify(req.body)}`,
       redirect_url: `${DOMAIN}/success`,
       currency: 'KES',
     });
@@ -464,6 +470,16 @@ app.post('/intasend-checkout', async (req, res) => {
 //     })
 // })
 
+
+// app.get('/success', async (req,res) => {
+//   let {order, session_id} = req.query;
+
+//   try {
+//     const session = await
+//   } catch (error) {
+
+//   }
+// })
 
 // 404 route
 app.get("/404", (req, res) => {
