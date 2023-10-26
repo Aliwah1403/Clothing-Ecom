@@ -49,6 +49,22 @@
       <div class="checkout-section">
         <div class="checkout-box">
           <p class="text">Your Total Bill</p>
+          <div class="dropdown">
+            <input
+              type="text"
+              class="textBox"
+              placeholder="Delivery Options"
+              readonly
+            />
+            <div class="delivery-options">
+              <div onclick="show('Nairobi CBD Dropoff')">
+                Nairobi CBD Dropoff
+              </div>
+              <div onclick="show('Nairobi Region 1')">Nairobi Region 1</div>
+              <div onclick="show('Nairobi Region 2')">Nairobi Region 2</div>
+              <div onclick="show('Outside Nairobi')">Outside Nairobi</div>
+            </div>
+          </div>
           <h1 class="bill">$00</h1>
           <a href="/checkout" class="checkout-btn">Checkout</a>
         </div>

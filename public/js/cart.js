@@ -27,6 +27,18 @@ const createSmallCards = (data) => {
     `;
 }
 
+// Delivery Options
+const show = (anything) => {
+    document.querySelector('.textBox').value = anything;
+}
+
+
+const dropdown = document.querySelector('.dropdown');
+dropdown.addEventListener('click', () => {
+    dropdown.classList.toggle('active')
+})
+
+
 let totalBill = 0;
 
 
@@ -49,9 +61,15 @@ const setProducts = (name) => {
     setupEvents(name);
 }
 
+const delivery = false;
+
 const updateBill = () => {
     let billPrice = document.querySelector('.bill');
-    billPrice.innerHTML = `$${totalBill}`;
+    if (delivery == true) {
+        billPrice.innerHTML = `$${totalBill + 400}`;
+    } else {
+        billPrice.innerHTML = `$${totalBill}`;
+    }
 }
 
 
