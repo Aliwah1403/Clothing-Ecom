@@ -19,6 +19,16 @@ let db = admin.firestore();
 
 // aws configuration
 const aws = require("aws-sdk");
+
+const {
+  getSignedUrl
+} = require("@aws-sdk/s3-request-presigner");
+
+const {
+  PutObjectCommand,
+  S3
+} = require("@aws-sdk/client-s3");
+
 const dotenv = require("dotenv");
 const { url } = require("inspector");
 
@@ -37,7 +47,7 @@ aws.config.update({
 });
 
 // initialise s3
-const s3 = new aws.S3();
+const s3 = new S3();
 
 // generate image upload link
 async function generateUrl() {
@@ -52,7 +62,9 @@ async function generateUrl() {
     Expires: 300, //300ms
     ContentType: "image/jpeg",
   };
-  const uploadUrl = await s3.getSignedUrlPromise("putObject", params);
+  const uploadUrl = await getSignedUrl(s3, new PutObjectCommand(params), {
+    expiresIn: "/* add value from 'Expires' from v2 call if present, else remove */"
+  });
   return uploadUrl;
 }
 
