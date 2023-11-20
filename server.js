@@ -63,7 +63,7 @@ async function generateUrl() {
     ContentType: "image/jpeg",
   };
   const uploadUrl = await getSignedUrl(s3, new PutObjectCommand(params), {
-    expiresIn: "/* add value from 'Expires' from v2 call if present, else remove */"
+    expiresIn: 300
   });
   return uploadUrl;
 }
@@ -373,7 +373,6 @@ app.post('/intasend-checkout', async (req, res) => {
       zipcode: req.body.zipcode,
       amount: req.body.amount,
       host: `${DOMAIN}`,
-      // redirect_url: `${DOMAIN}/success?session_id={checkout_id}&order=${JSON.stringify(req.body)}`,
       redirect_url: `${DOMAIN}/success`,
       currency: 'KES',
     });
@@ -389,6 +388,20 @@ app.post('/intasend-checkout', async (req, res) => {
 });
 
 
+// app.get('/success', async (req, res) => {
+//   // let { order, session_id } = req.query;
+
+//   let collection = intasend.collection();
+//   collection
+//     .status('checkout_id')
+//     .then((resp) => {
+//       // Redirect user to URL to complete payment
+//       console.log(`Status Resp:`, resp);
+//     })
+//     .catch((err) => {
+//       console.error(`Status Resp error:`, err);
+//     });
+// })
 
 
 // order-checkout route
@@ -482,17 +495,6 @@ app.post('/intasend-checkout', async (req, res) => {
 //     })
 // })
 
-
-// app.get('/success', async (req,res) => {
-//   let {order, session_id} = req.query;
-
-//   try {
-//     const session = await
-//   } catch (error) {
-
-//   }
-// })
-
 // 404 route
 app.get("/404", (req, res) => {
   res.sendFile(path.join(staticPath, "404.html"));
@@ -502,6 +504,8 @@ app.use((req, res) => {
   res.redirect("/404");
 });
 
-app.listen(8000, () => {
-  console.log("Server running on port 8000");
+const port = process.env.PORT;
+
+app.listen(port, () => {
+  console.log(`Server running on port ${process.env.PORT}`);
 });

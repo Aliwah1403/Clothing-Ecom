@@ -27,16 +27,6 @@ const createSmallCards = (data) => {
     `;
 }
 
-// Delivery Options
-const show = (anything) => {
-    document.querySelector('.textBox').value = anything;
-}
-
-
-const dropdown = document.querySelector('.dropdown');
-dropdown.addEventListener('click', () => {
-    dropdown.classList.toggle('active')
-})
 
 
 let totalBill = 0;
@@ -61,15 +51,46 @@ const setProducts = (name) => {
     setupEvents(name);
 }
 
-const delivery = false;
+// Delivery Options
+const show = (anything) => {
+    document.querySelector('.textBox').value = anything;
+
+    // let billPrice = document.querySelector('.bill');
+    // let newTotalBill = calculateTotalBill(anything)
+
+    // billPrice.innerHTML = newTotalBill;
+}
+
+// calculate total bill based on chosen option
+// function calculateTotalBill(selectedOption) {
+//     switch (selectedOption) {
+//         case 'Nairobi CBD Dropoff':
+//             return `${totalBill}`
+//             break;
+//         case 'Nairobi Region 1':
+//             return `${totalBill + 100}`;
+//             break;
+//         case 'Nairobi Region 2':
+//             return `${totalBill + 200}`;
+//             break;
+//         case 'Outside Nairobi':
+//             return `${totalBill + 300}`;
+//             break;
+//         default:
+//             return `${totalBill}`
+//             break;
+//     }
+// }
+
+
+const dropdown = document.querySelector('.dropdown');
+dropdown.addEventListener('click', () => {
+    dropdown.classList.toggle('active')
+})
 
 const updateBill = () => {
     let billPrice = document.querySelector('.bill');
-    if (delivery == true) {
-        billPrice.innerHTML = `$${totalBill + 400}`;
-    } else {
-        billPrice.innerHTML = `$${totalBill}`;
-    }
+    billPrice.innerHTML = `$${totalBill}`;
 }
 
 
