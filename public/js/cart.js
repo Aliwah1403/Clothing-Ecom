@@ -24,12 +24,14 @@ const createSmallCards = (data) => {
               <img src="images/close.png" alt="" />
             </button>
           </div>
-    `;
+`
+        ;
 }
 
 
 
 let totalBill = 0;
+let deliveryOption = 1;
 
 
 const setProducts = (name) => {
@@ -52,47 +54,45 @@ const setProducts = (name) => {
 }
 
 // Delivery Options
-const show = (anything) => {
-    document.querySelector('.textBox').value = anything;
-
-    // let billPrice = document.querySelector('.bill');
-    // let newTotalBill = calculateTotalBill(anything)
-
-    // billPrice.innerHTML = newTotalBill;
-}
-
-// calculate total bill based on chosen option
-// function calculateTotalBill(selectedOption) {
-//     switch (selectedOption) {
-//         case 'Nairobi CBD Dropoff':
-//             return `${totalBill}`
-//             break;
-//         case 'Nairobi Region 1':
-//             return `${totalBill + 100}`;
-//             break;
-//         case 'Nairobi Region 2':
-//             return `${totalBill + 200}`;
-//             break;
-//         case 'Outside Nairobi':
-//             return `${totalBill + 300}`;
-//             break;
-//         default:
-//             return `${totalBill}`
-//             break;
-//     }
+// const show = (anything) => {
+//     document.querySelector('.textBox').value = anything;
 // }
+// const dropdown = document.querySelector('.dropdown');
+// dropdown.addEventListener('click', () => {
+//     dropdown.classList.toggle('active')
+// })
 
 
-const dropdown = document.querySelector('.dropdown');
-dropdown.addEventListener('click', () => {
-    dropdown.classList.toggle('active')
-})
 
+
+// Code to update the bill depending on the delivery location chosen
 const updateBill = () => {
     let billPrice = document.querySelector('.bill');
-    billPrice.innerHTML = `$${totalBill}`;
+    // totalBill = calculateTotalBill(devOption);
+    // billPrice.innerHTML = `$${totalBill}`;
+
+    switch (parseInt(deliveryOption)) {
+        case 1:
+            billPrice.innerHTML = `$${totalBill}`;
+            break;
+
+        case 2:
+            billPrice.innerHTML = `$${totalBill + 50}`;
+            break;
+
+        case 3:
+            billPrice.innerHTML = `$${totalBill + 100}`;
+            break;
+        default:
+            billPrice.innerHTML = `$${totalBill}`
+    }
 }
 
+const dropdown = document.getElementById('deliveryDropdown')
+dropdown.addEventListener('change', () => {
+    deliveryOption = dropdown.value;
+    updateBill()
+})
 
 
 const setupEvents = (name) => {

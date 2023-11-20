@@ -38,22 +38,11 @@
       <div class="checkout-section">
         <div class="checkout-box">
           <p class="text">Your Total Bill</p>
-          <div class="dropdown">
-            <input
-              type="text"
-              class="textBox"
-              placeholder="Delivery Options"
-              readonly
-            />
-            <div class="delivery-options">
-              <div onclick="show('Nairobi CBD Dropoff')">
-                Nairobi CBD Dropoff
-              </div>
-              <div onclick="show('Nairobi Region 1')">Nairobi Region 1</div>
-              <div onclick="show('Nairobi Region 2')">Nairobi Region 2</div>
-              <div onclick="show('Outside Nairobi')">Outside Nairobi</div>
-            </div>
-          </div>
+        <select id="deliveryDropdown">
+            <option value="1">Nairobi CBD</option>
+            <option value="2">Nairobi Zone 1</option>
+            <option value="3">Nairobi Zone 2</option>
+          </select>
           <h1 class="bill">$00</h1>
           <button class="place-order-btn">Place Order</button>
         </div>
