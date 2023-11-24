@@ -129,10 +129,22 @@
 
 .checkout-box {
   width: 100%;
-  height: 200px;
+  height: auto;
   border-radius: 2px;
   border: 1px solid #d8d8d8;
   padding: 20px;
+}
+
+#deliveryDropdown {
+  padding: 10px 20px;
+  margin: 20px 0 5px;
+  text-align: left;
+  font-size: 14px;
+  text-transform: capitalize;
+  background: #383838;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .text {

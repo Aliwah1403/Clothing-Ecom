@@ -46,7 +46,8 @@ placeOrderBtn.addEventListener('click', () => {
             email: JSON.parse(sessionStorage.user).email,
             first_name: JSON.parse(sessionStorage.user).name,
             phone_number: JSON.parse(sessionStorage.user).number,
-            amount: totalBill,
+            // amount: totalBill,
+            amount: finalPrice,
         }),
     })
         .then((res) => {

@@ -65,6 +65,7 @@ const setProducts = (name) => {
 
 
 
+let finalPrice = 0;
 // Code to update the bill depending on the delivery location chosen
 const updateBill = () => {
     let billPrice = document.querySelector('.bill');
@@ -73,19 +74,33 @@ const updateBill = () => {
 
     switch (parseInt(deliveryOption)) {
         case 1:
-            billPrice.innerHTML = `$${totalBill}`;
-            break;
+             billPrice.innerHTML = `$${totalBill}`;
+                finalPrice = totalBill;
+             break;
 
         case 2:
-            billPrice.innerHTML = `$${totalBill + 50}`;
-            break;
+                finalPrice = totalBill + 100;
+             break;
 
         case 3:
-            billPrice.innerHTML = `$${totalBill + 100}`;
-            break;
+                finalPrice = totalBill + 200;
+             break;
+
+        case 4:
+                finalPrice = totalBill + 250;
+             break;
+
+        case 5:
+                finalPrice = totalBill + 300;
+             break;
+
+        case 6:
+                finalPrice = totalBill + 800;
+             break;
         default:
-            billPrice.innerHTML = `$${totalBill}`
-    }
+                 finalPrice = totalBill;
+            }
+            billPrice.innerHTML = `$${finalPrice}`
 }
 
 const dropdown = document.getElementById('deliveryDropdown')
