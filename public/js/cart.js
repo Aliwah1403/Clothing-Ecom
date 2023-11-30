@@ -24,7 +24,8 @@ const createSmallCards = (data) => {
               <img src="images/close.png" alt="" />
             </button>
           </div>
-`
+
+    `
         ;
 }
 
@@ -103,11 +104,11 @@ const updateBill = () => {
             billPrice.innerHTML = `$${finalPrice}`
 }
 
-const dropdown = document.getElementById('deliveryDropdown')
-dropdown.addEventListener('change', () => {
-    deliveryOption = dropdown.value;
-    updateBill()
-})
+// const dropdown = document.getElementById('deliveryDropdown')
+// dropdown.addEventListener('change', () => {
+//     deliveryOption = dropdown.value;
+//     updateBill()
+// })
 
 
 const setupEvents = (name) => {

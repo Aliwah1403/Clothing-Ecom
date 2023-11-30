@@ -387,20 +387,54 @@ app.post('/intasend-checkout', async (req, res) => {
   }
 });
 
+let storedData = {}
+
+app.post('/order', (req, res) => {
+  const { order, email } = req.body;
+
+  storedData = { order, email };
+})
+
+// success page
+app.get('/success', (req, res) => {
+  res.sendFile(path.join(staticPath, "success.html"));
+
+  let { checkout_id } = req.query;
+  let { order, email } = storedData;
+
+  console.log(`Order received from the /order route:`, order);
+  console.log(`Email received from the /order route:`, email);
+  // console.log(`Address received from the /order route:`, add);
+})
+
 
 // app.get('/success', async (req, res) => {
-//   // let { order, session_id } = req.query;
+//   let { order } = req.query;
 
-//   let collection = intasend.collection();
-//   collection
-//     .status('checkout_id')
-//     .then((resp) => {
-//       // Redirect user to URL to complete payment
-//       console.log(`Status Resp:`, resp);
-//     })
-//     .catch((err) => {
-//       console.error(`Status Resp error:`, err);
-//     });
+//   // let collection = intasend.collection();
+//   // collection
+//   //   .status('checkout_id')
+//   //   .then((resp) => {
+//   //     // Redirect user to URL to complete payment
+//   //     console.log(`Status Resp:`, resp);
+//   //   })
+//   //   .catch((err) => {
+//   //     console.error(`Status Resp error:`, err);
+//   //   });
+
+//   try {
+//     let date = new Date();
+
+//     let orders_collection = collection(db, "orders");
+//     let docName = `${customer.email}-order-${date.getTime()}`;
+
+//     setDoc(doc(orders_collection, docName), JSON.parse(order))
+//       .then(data => {
+//         res.redirect('/checkout?payment=done')
+//       })
+//   } catch {
+//     res.redirect('/404');
+//   }
 // })
 
 
