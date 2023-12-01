@@ -390,9 +390,9 @@ app.post('/intasend-checkout', async (req, res) => {
 let storedData = {}
 
 app.post('/order', (req, res) => {
-  const { order, email } = req.body;
+  const { order, email, add } = req.body;
 
-  storedData = { order, email };
+  storedData = { order, email, add };
 })
 
 // success page
@@ -400,11 +400,19 @@ app.get('/success', (req, res) => {
   res.sendFile(path.join(staticPath, "success.html"));
 
   let { checkout_id } = req.query;
-  let { order, email } = storedData;
+  let { order, email, add } = storedData;
 
-  console.log(`Order received from the /order route:`, order);
-  console.log(`Email received from the /order route:`, email);
-  // console.log(`Address received from the /order route:`, add);
+  let date = new Date();
+
+  let docName = `${email}-order-${date.getTime()}`;
+  db.collection('order').doc(docName).set(storedData)
+    .then(data => {
+      // res.redirect('/checkout?payment=done')
+      console.log('Added to DB ')
+    })
+    .catch(err => {
+      console.log(err)
+    })
 })
 
 

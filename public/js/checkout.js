@@ -1,10 +1,10 @@
-// const { json } = require("express");
-
 window.onload = () => {
     if (!sessionStorage.user) {
         location.replace('/login');
     }
 }
+
+
 
 // Delivery dropdown
 const dropdown = document.getElementById('deliveryDropdown')
@@ -15,18 +15,7 @@ dropdown.addEventListener('change', () => {
 
 
 
-fetch('/order', {
-    method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
-    body: JSON.stringify({
-        order: JSON.parse(localStorage.cart),
-        email: JSON.parse(sessionStorage.user).email,
-    })
-}).then(res => {
-    window.location.href = '/success';
-}).catch(err => {
-    console.log(err);
-})
+
 
 
 
@@ -86,6 +75,20 @@ placeOrderBtn.addEventListener('click', () => {
             window.location.href = redirectUrl;
         })
         .catch((err) => console.log('Error:', err));
+
+    fetch('/order', {
+        method: 'POST',
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({
+            order: JSON.parse(localStorage.cart),
+            email: JSON.parse(sessionStorage.user).email,
+            add: address,
+        })
+    }).then(res => {
+        window.location.href = '/success';
+    }).catch(err => {
+        console.log(err);
+    })
 
 
 })
