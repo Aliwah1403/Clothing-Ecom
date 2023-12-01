@@ -1,10 +1,23 @@
-// const { json } = require("express");
-
 window.onload = () => {
     if (!sessionStorage.user) {
         location.replace('/login');
     }
 }
+
+
+
+// Delivery dropdown
+const dropdown = document.getElementById('deliveryDropdown')
+dropdown.addEventListener('change', () => {
+    deliveryOption = dropdown.value;
+    updateBill()
+})
+
+
+
+
+
+
 
 const placeOrderBtn = document.querySelector('.place-order-btn');
 placeOrderBtn.addEventListener('click', () => {
@@ -46,7 +59,8 @@ placeOrderBtn.addEventListener('click', () => {
             email: JSON.parse(sessionStorage.user).email,
             first_name: JSON.parse(sessionStorage.user).name,
             phone_number: JSON.parse(sessionStorage.user).number,
-            amount: totalBill,
+            // amount: totalBill,
+            amount: finalPrice,
         }),
     })
         .then((res) => {
@@ -61,6 +75,20 @@ placeOrderBtn.addEventListener('click', () => {
             window.location.href = redirectUrl;
         })
         .catch((err) => console.log('Error:', err));
+
+    fetch('/order', {
+        method: 'POST',
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({
+            order: JSON.parse(localStorage.cart),
+            email: JSON.parse(sessionStorage.user).email,
+            add: address,
+        })
+    }).then(res => {
+        window.location.href = '/success';
+    }).catch(err => {
+        console.log(err);
+    })
 
 
 })
