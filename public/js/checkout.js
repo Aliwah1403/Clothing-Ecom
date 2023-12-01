@@ -6,6 +6,30 @@ window.onload = () => {
     }
 }
 
+// Delivery dropdown
+const dropdown = document.getElementById('deliveryDropdown')
+dropdown.addEventListener('change', () => {
+    deliveryOption = dropdown.value;
+    updateBill()
+})
+
+
+
+fetch('/order', {
+    method: 'POST',
+    headers: new Headers({ 'Content-Type': 'application/json' }),
+    body: JSON.stringify({
+        order: JSON.parse(localStorage.cart),
+        email: JSON.parse(sessionStorage.user).email,
+    })
+}).then(res => {
+    window.location.href = '/success';
+}).catch(err => {
+    console.log(err);
+})
+
+
+
 const placeOrderBtn = document.querySelector('.place-order-btn');
 placeOrderBtn.addEventListener('click', () => {
     let address = getAddress();
