@@ -75,7 +75,7 @@ const updateBill = () => {
 
     switch (parseInt(deliveryOption)) {
         case 1:
-             billPrice.innerHTML = `$${totalBill}`;
+            //  billPrice.innerHTML = `$${totalBill}`;
                 finalPrice = totalBill;
              break;
 
