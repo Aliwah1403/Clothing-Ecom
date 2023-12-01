@@ -24,10 +24,14 @@ const createSmallCards = (data) => {
               <img src="images/close.png" alt="" />
             </button>
           </div>
-    `;
+`
+        ;
 }
 
+
+
 let totalBill = 0;
+let deliveryOption = 1;
 
 
 const setProducts = (name) => {
@@ -49,11 +53,61 @@ const setProducts = (name) => {
     setupEvents(name);
 }
 
+// Delivery Options
+// const show = (anything) => {
+//     document.querySelector('.textBox').value = anything;
+// }
+// const dropdown = document.querySelector('.dropdown');
+// dropdown.addEventListener('click', () => {
+//     dropdown.classList.toggle('active')
+// })
+
+
+
+
+let finalPrice = 0;
+// Code to update the bill depending on the delivery location chosen
 const updateBill = () => {
     let billPrice = document.querySelector('.bill');
-    billPrice.innerHTML = `$${totalBill}`;
+    // totalBill = calculateTotalBill(devOption);
+    // billPrice.innerHTML = `$${totalBill}`;
+
+    switch (parseInt(deliveryOption)) {
+        case 1:
+             billPrice.innerHTML = `$${totalBill}`;
+                finalPrice = totalBill;
+             break;
+
+        case 2:
+                finalPrice = totalBill + 100;
+             break;
+
+        case 3:
+                finalPrice = totalBill + 200;
+             break;
+
+        case 4:
+                finalPrice = totalBill + 250;
+             break;
+
+        case 5:
+                finalPrice = totalBill + 300;
+             break;
+
+        case 6:
+                finalPrice = totalBill + 800;
+             break;
+        default:
+                 finalPrice = totalBill;
+            }
+            billPrice.innerHTML = `$${finalPrice}`
 }
 
+const dropdown = document.getElementById('deliveryDropdown')
+dropdown.addEventListener('change', () => {
+    deliveryOption = dropdown.value;
+    updateBill()
+})
 
 
 const setupEvents = (name) => {

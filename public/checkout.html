@@ -18,7 +18,7 @@
     </div>
 
     <div class="form">
-      <hi class="heading">checkout</hi>
+      <h1 class="heading">checkout</h1>
       <p class="text">Delivery Address</p>
       <input type="text" id="address" placeholder="address" />
       <input type="text" id="street" placeholder="street" />
@@ -38,6 +38,16 @@
       <div class="checkout-section">
         <div class="checkout-box">
           <p class="text">Your Total Bill</p>
+
+          <select id="deliveryDropdown">
+            <option value="1">CBD Pickup</option>
+            <option value="2">Within CBD</option>
+            <option value="3">Nairobi Zone 1</option>
+            <option value="4">Nairobi Zone 2</option>
+            <option value="5">Nairobi Zone 3</option>
+            <option value="6">Outside Nairobi</option>
+          </select>
+
           <h1 class="bill">$00</h1>
           <button class="place-order-btn">Place Order</button>
         </div>

@@ -19,6 +19,16 @@ let db = admin.firestore();
 
 // aws configuration
 const aws = require("aws-sdk");
+
+const {
+  getSignedUrl
+} = require("@aws-sdk/s3-request-presigner");
+
+const {
+  PutObjectCommand,
+  S3
+} = require("@aws-sdk/client-s3");
+
 const dotenv = require("dotenv");
 const { url } = require("inspector");
 
@@ -37,7 +47,7 @@ aws.config.update({
 });
 
 // initialise s3
-const s3 = new aws.S3();
+const s3 = new S3();
 
 // generate image upload link
 async function generateUrl() {
@@ -52,7 +62,9 @@ async function generateUrl() {
     Expires: 300, //300ms
     ContentType: "image/jpeg",
   };
-  const uploadUrl = await s3.getSignedUrlPromise("putObject", params);
+  const uploadUrl = await getSignedUrl(s3, new PutObjectCommand(params), {
+    expiresIn: 300
+  });
   return uploadUrl;
 }
 
@@ -321,6 +333,11 @@ app.get('/search/:key', (req, res) => {
   res.sendFile(path.join(staticPath, "search.html"));
 })
 
+// shop page
+app.get('/shop', (req, res) => {
+  res.sendFile(path.join(staticPath, "shop.html"));
+})
+
 // cart page
 app.get('/cart', (req, res) => {
   res.sendFile(path.join(staticPath, "cart.html"));
@@ -371,6 +388,20 @@ app.post('/intasend-checkout', async (req, res) => {
 });
 
 
+// app.get('/success', async (req, res) => {
+//   // let { order, session_id } = req.query;
+
+//   let collection = intasend.collection();
+//   collection
+//     .status('checkout_id')
+//     .then((resp) => {
+//       // Redirect user to URL to complete payment
+//       console.log(`Status Resp:`, resp);
+//     })
+//     .catch((err) => {
+//       console.error(`Status Resp error:`, err);
+//     });
+// })
 
 
 // order-checkout route
@@ -464,7 +495,6 @@ app.post('/intasend-checkout', async (req, res) => {
 //     })
 // })
 
-
 // 404 route
 app.get("/404", (req, res) => {
   res.sendFile(path.join(staticPath, "404.html"));
@@ -474,6 +504,8 @@ app.use((req, res) => {
   res.redirect("/404");
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+const port = process.env.PORT;
+
+app.listen(port, () => {
+  console.log(`Server running on port ${process.env.PORT}`);
 });
