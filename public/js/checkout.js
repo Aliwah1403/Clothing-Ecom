@@ -1,10 +1,10 @@
-// const { json } = require("express");
-
 window.onload = () => {
     if (!sessionStorage.user) {
         location.replace('/login');
     }
 }
+
+
 
 // Delivery dropdown
 const dropdown = document.getElementById('deliveryDropdown')
@@ -15,26 +15,9 @@ dropdown.addEventListener('change', () => {
 
 
 
-fetch('/order', {
-    method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
-    body: JSON.stringify({
-        order: JSON.parse(localStorage.cart),
-        email: JSON.parse(sessionStorage.user).email,
-    })
-}).then(res => {
-    window.location.href = '/success';
-}).catch(err => {
-    console.log(err);
-})
-
-
-
 const placeOrderBtn = document.querySelector('.place-order-btn');
 placeOrderBtn.addEventListener('click', () => {
     let address = getAddress();
-
-
     // if (address) {
     //     fetch('/order', {
     //         method: 'POST',
@@ -70,7 +53,6 @@ placeOrderBtn.addEventListener('click', () => {
             email: JSON.parse(sessionStorage.user).email,
             first_name: JSON.parse(sessionStorage.user).name,
             phone_number: JSON.parse(sessionStorage.user).number,
-            // amount: totalBill,
             amount: finalPrice,
         }),
     })
@@ -86,11 +68,9 @@ placeOrderBtn.addEventListener('click', () => {
             window.location.href = redirectUrl;
         })
         .catch((err) => console.log('Error:', err));
-
-
 })
 
-const getAddress = () => {
+export const getAddress = () => {
     // validation
     let address = document.getElementById('address').value;
     let street = document.getElementById('street').value;
@@ -106,3 +86,6 @@ const getAddress = () => {
         return { address, street, city, state, zipcode, landmark };
     }
 }
+
+const address = getAddress();
+sessionStorage.setItem('address', JSON.stringify(address));
