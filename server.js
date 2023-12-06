@@ -387,42 +387,19 @@ app.post('/intasend-checkout', async (req, res) => {
   }
 });
 
-// let storedData = {}
-
-// app.post('/order', async (req, res) => {
-//   const { order, email, add } = req.body;
-
-//   try {
-//     let date = new Date();
-
-//     let docName = `${email}-order-${date.getTime()}`;
-//     db.collection('order').doc(docName).set(req.body)
-//       .then(data => {
-//         // res.redirect('/checkout?payment=done')
-//         console.log('Added to DB ')
-//       })
-//       .catch(err => {
-//         console.log(err)
-//       })
-//   } catch (err) {
-//     res.redirect('/404');
-//     console.log('Error storing order: ',err)
-//   }
-//   // storedData = { order, email, add };
-
-// })
-
 // success page
 app.get('/success', (req, res) => {
-  res.sendFile(path.join(staticPath, "success.html"));
 
-  let { checkout_id } = req.query;
-  // let { order, email, add } = storedData;
+  // let { tracking_id, order, email, add } = req.query;
 
-  // let date = new Date();
+  // console.log('Received order:', order);
+  // console.log('Received email:', email);
+  // console.log('Received address:', add);
 
-  // let docName = `${email}-order-${date.getTime()}`;
-  // db.collection('order').doc(docName).set(storedData)
+
+  // // Sending data to firebase
+  // let docName = `${email}-order-${tracking_id}`;
+  // db.collection('order').doc(docName).set(req.query)
   //   .then(data => {
   //     // res.redirect('/checkout?payment=done')
   //     console.log('Added to DB ')
@@ -430,37 +407,18 @@ app.get('/success', (req, res) => {
   //   .catch(err => {
   //     console.log(err)
   //   })
+
+  res.sendFile(path.join(staticPath, "success.html"));
 })
 
+// order page
+app.post('/order', async (req, res) => {
+  const { order, email, add } = req.body;
 
-// app.get('/success', async (req, res) => {
-//   let { order } = req.query;
-
-//   // let collection = intasend.collection();
-//   // collection
-//   //   .status('checkout_id')
-//   //   .then((resp) => {
-//   //     // Redirect user to URL to complete payment
-//   //     console.log(`Status Resp:`, resp);
-//   //   })
-//   //   .catch((err) => {
-//   //     console.error(`Status Resp error:`, err);
-//   //   });
-
-//   try {
-//     let date = new Date();
-
-//     let orders_collection = collection(db, "orders");
-//     let docName = `${customer.email}-order-${date.getTime()}`;
-
-//     setDoc(doc(orders_collection, docName), JSON.parse(order))
-//       .then(data => {
-//         res.redirect('/checkout?payment=done')
-//       })
-//   } catch {
-//     res.redirect('/404');
-//   }
-// })
+  console.log('Order after success page: ', order)
+  console.log('Email after success page: ', email)
+  console.log('Address after success page: ', add)
+})
 
 
 // order-checkout route

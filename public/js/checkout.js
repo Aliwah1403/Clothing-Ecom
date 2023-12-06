@@ -5,14 +5,12 @@ window.onload = () => {
 }
 
 
-
 // Delivery dropdown
 const dropdown = document.getElementById('deliveryDropdown')
 dropdown.addEventListener('change', () => {
     deliveryOption = dropdown.value;
     updateBill()
 })
-
 
 
 const placeOrderBtn = document.querySelector('.place-order-btn');
@@ -70,6 +68,7 @@ placeOrderBtn.addEventListener('click', () => {
         .catch((err) => console.log('Error:', err));
 })
 
+
 export const getAddress = () => {
     // validation
     let address = document.getElementById('address').value;
@@ -86,6 +85,3 @@ export const getAddress = () => {
         return { address, street, city, state, zipcode, landmark };
     }
 }
-
-const address = getAddress();
-sessionStorage.setItem('address', JSON.stringify(address));
