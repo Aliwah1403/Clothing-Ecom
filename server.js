@@ -387,80 +387,54 @@ app.post('/intasend-checkout', async (req, res) => {
   }
 });
 
-// let storedData = {}
-
-// app.post('/order', async (req, res) => {
-//   const { order, email, add } = req.body;
-
-//   try {
-//     let date = new Date();
-
-//     let docName = `${email}-order-${date.getTime()}`;
-//     db.collection('order').doc(docName).set(req.body)
-//       .then(data => {
-//         // res.redirect('/checkout?payment=done')
-//         console.log('Added to DB ')
-//       })
-//       .catch(err => {
-//         console.log(err)
-//       })
-//   } catch (err) {
-//     res.redirect('/404');
-//     console.log('Error storing order: ',err)
-//   }
-//   // storedData = { order, email, add };
-
-// })
-
 // success page
-app.get('/success', (req, res) => {
+app.get('/success', async (req, res) => {
   res.sendFile(path.join(staticPath, "success.html"));
 
-  let { checkout_id } = req.query;
-  // let { order, email, add } = storedData;
+  let { checkout_id, tracking_id } = req.query;
 
-  // let date = new Date();
 
-  // let docName = `${email}-order-${date.getTime()}`;
-  // db.collection('order').doc(docName).set(storedData)
-  //   .then(data => {
-  //     // res.redirect('/checkout?payment=done')
-  //     console.log('Added to DB ')
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //   })
+  try {
+    let collection = await intasend.collection();
+    const statusResult = await collection.status(tracking_id)
+
+    // console.log('Payment status: ', statusResult)
+
+  } catch (err) {
+    console.error(`Status Resp error:`, err);
+  }
+
 })
 
+app.post('/order', async (req, res) => {
+  const { order, email, add } = req.body;
 
-// app.get('/success', async (req, res) => {
-//   let { order } = req.query;
+  try {
+    let date = new Date();
 
-//   // let collection = intasend.collection();
-//   // collection
-//   //   .status('checkout_id')
-//   //   .then((resp) => {
-//   //     // Redirect user to URL to complete payment
-//   //     console.log(`Status Resp:`, resp);
-//   //   })
-//   //   .catch((err) => {
-//   //     console.error(`Status Resp error:`, err);
-//   //   });
+    // Get the time components (hours, minutes, seconds)
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
 
-//   try {
-//     let date = new Date();
+    // Format the time to HH:MM:SS format
+    let formattedTime = `${hours}:${minutes}:${seconds}`;
 
-//     let orders_collection = collection(db, "orders");
-//     let docName = `${customer.email}-order-${date.getTime()}`;
+    let docName = `${email}-order-${formattedTime}`;
+    db.collection('order').doc(docName).set(req.body)
+      .then(data => {
+        // res.redirect('/checkout?payment=done')
+        console.log('Added to DB ')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  } catch (err) {
+    res.redirect('/404');
+    console.log('Error storing order: ', err)
+  }
 
-//     setDoc(doc(orders_collection, docName), JSON.parse(order))
-//       .then(data => {
-//         res.redirect('/checkout?payment=done')
-//       })
-//   } catch {
-//     res.redirect('/404');
-//   }
-// })
+})
 
 
 // order-checkout route
