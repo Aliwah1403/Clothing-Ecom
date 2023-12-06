@@ -388,36 +388,52 @@ app.post('/intasend-checkout', async (req, res) => {
 });
 
 // success page
-app.get('/success', (req, res) => {
-
-  // let { tracking_id, order, email, add } = req.query;
-
-  // console.log('Received order:', order);
-  // console.log('Received email:', email);
-  // console.log('Received address:', add);
-
-
-  // // Sending data to firebase
-  // let docName = `${email}-order-${tracking_id}`;
-  // db.collection('order').doc(docName).set(req.query)
-  //   .then(data => {
-  //     // res.redirect('/checkout?payment=done')
-  //     console.log('Added to DB ')
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //   })
-
+app.get('/success', async (req, res) => {
   res.sendFile(path.join(staticPath, "success.html"));
+
+  let { checkout_id, tracking_id } = req.query;
+
+
+  try {
+    let collection = await intasend.collection();
+    const statusResult = await collection.status(tracking_id)
+
+    // console.log('Payment status: ', statusResult)
+
+  } catch (err) {
+    console.error(`Status Resp error:`, err);
+  }
+
 })
 
-// order page
 app.post('/order', async (req, res) => {
   const { order, email, add } = req.body;
 
-  console.log('Order after success page: ', order)
-  console.log('Email after success page: ', email)
-  console.log('Address after success page: ', add)
+  try {
+    let date = new Date();
+
+    // Get the time components (hours, minutes, seconds)
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    let seconds = date.getSeconds();
+
+    // Format the time to HH:MM:SS format
+    let formattedTime = `${hours}:${minutes}:${seconds}`;
+
+    let docName = `${email}-order-${formattedTime}`;
+    db.collection('order').doc(docName).set(req.body)
+      .then(data => {
+        // res.redirect('/checkout?payment=done')
+        console.log('Added to DB ')
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  } catch (err) {
+    res.redirect('/404');
+    console.log('Error storing order: ', err)
+  }
+
 })
 
 
