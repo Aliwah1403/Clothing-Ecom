@@ -398,33 +398,333 @@ app.get('/success', async (req, res) => {
     let collection = await intasend.collection();
     const statusResult = await collection.status(tracking_id)
 
-    // console.log('Payment status: ', statusResult)
+    const session = await checkout_id;
+    const customer = await statusResult.meta.customer;
+    const email = await statusResult.meta.customer.email;
+    const name = await `${statusResult.meta.customer.first_name} ${statusResult.meta.customer.last_name}`
+
+    // Have an email get sent to user to inform order being sent
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+      }
+    })
+
+    const mailOption = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: 'Clothing : Order Placed',
+      html: `
+         <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+
+        <style>
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+
+          body {
+            min-height: 90vh;
+            background: #f5f5f5;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .heading {
+            text-align: center;
+            font-size: 40px;
+            width: 50%;
+            display: block;
+            line-height: 50px;
+            margin: 30px auto 60px;
+            text-transform: capitalize;
+          }
+
+          .heading span {
+            font-weight: 300;
+          }
+
+          .btn {
+            width: 200px;
+            height: 50px;
+            border-radius: 5px;
+            background: #3f3f3f;
+            color: #fff;
+            display: block;
+            margin: auto;
+            font-size: 18px;
+            text-transform: capitalize;
+          }
+        </style>
+      </head>
+      <body>
+        <h1 class="heading">
+          dear ${name}, <span>your order(Order - ${tracking_id}) has been successfully placed</span>
+        </h1>
+        <button class="btn">Continue Shopping</button>
+      </body>
+    </html>
+
+        `
+    }
+    transporter.sendMail(mailOption, (err, info) => {
+      if (err) {
+        // res.json({ 'alert': "oops! seems like an error occurred. Please try again" })
+        console.log('An error occurred sending the mail')
+      } else {
+        // res.json({ 'alert': "your order has been placed" })
+        console.log("Order email placed")
+      }
+    })
 
   } catch (err) {
-    console.error(`Status Resp error:`, err);
+    // res.redirect('/404')
+    console.log(err);
   }
 
 })
 
 app.post('/order', async (req, res) => {
-  const { order, email, add } = req.body;
+  const { order, email, add, name } = req.body;
 
   try {
-    let date = new Date();
+    let orderNumber = Math.floor(Math.random() * 12371928773392)
 
-    // Get the time components (hours, minutes, seconds)
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let seconds = date.getSeconds();
-
-    // Format the time to HH:MM:SS format
-    let formattedTime = `${hours}:${minutes}:${seconds}`;
-
-    let docName = `${email}-order-${formattedTime}`;
+    let docName = `${email}-order-${orderNumber}`;
     db.collection('order').doc(docName).set(req.body)
       .then(data => {
         // res.redirect('/checkout?payment=done')
-        console.log('Added to DB ')
+        // console.log('Added to DB ')
+
+        const orderItems = order.map(item => `
+  <div class="sm-product">
+    <img src="${item.image}" class="sm-product-img" alt="Product Image" />
+    <div class="sm-text">
+      <p class="sm-product-name">${item.name}</p>
+      <p class="sm-size">${item.size}</p>
+    </div>
+    <div class="quantity">
+      <h3>${item.item}x</h3>
+    </div>
+  </div>
+`).join('');
+
+        // Email to owners about order
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
+          }
+        })
+
+        const mailOptions = {
+          from: process.env.EMAIL,
+          to: process.env.EMAIL,
+          subject: `A new order has been placed`,
+          html: `
+            <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+          * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f5f5f5;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  display: block;
+  margin: 30px auto 60px;
+  min-height: auto;
+}
+
+.heading {
+  text-align: center;
+  margin: 0 auto;
+  font-size: 30px;
+  width: 50%;
+  display: block;
+  line-height: 50px;
+  text-transform: capitalize;
+}
+
+.heading span {
+  font-weight: 300;
+}
+
+.customer-order {
+  margin-top: 5%;
+  min-width: 700px;
+  padding: 10px 20px;
+}
+
+.customer-order h2 {
+  font-weight: 500;
+}
+
+/* Order details */
+.cart-section {
+  width: 100%;
+  padding: 20px 10vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.product-list {
+  width: 100%;
+  margin-top: 2%;
+}
+
+.checkout-section {
+  width: 28%;
+}
+
+.section-heading {
+  font-size: 30px;
+  font-weight: 500;
+  margin: 20px 0;
+}
+
+.cart {
+  width: 100%;
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #d8d8d8;
+  margin-bottom: 60px;
+}
+
+.sm-product {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    overflow: hidden;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.cart .sm-product:last-child,
+.wishlist .sm-product:last-child {
+  margin-bottom: 0;
+}
+
+.sm-product-img {
+  height: 100px;
+  width: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.sm-text {
+  width: 50%;
+}
+
+.sm-product-name {
+  font-size: 25px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.sm-des {
+  font-size: 18px;
+  opacity: 0.5;
+  line-height: 25px;
+  text-transform: capitalize;
+  margin-top: 10px;
+}
+
+.item-counter {
+  width: 90px;
+  height: 30px;
+  display: flex;
+  margin-right: 20px;
+}
+
+.counter-btn,
+.item-count {
+  width: 30px;
+  height: 30px;
+}
+
+.counter-btn {
+  background: #f3f3f3;
+  border: 1px solid rgb(216, 216, 216);
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+.item-count {
+  text-align: center;
+  line-height: 30px;
+  background: #f5f5f5;
+}
+
+.sm-price {
+  font-size: 30px;
+  font-weight: 500;
+  color: #383838;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="heading">
+            <span>You have received a new order from</span>, ${name}
+        </h1>
+
+        <div class="customer-order">
+            <h2>Item(s) Ordered</h2>
+            <div class="product-list">
+                <div class="cart">
+                    <!-- Customer Order(s) -->
+                    ${orderItems}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+          `
+        }
+
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.error(error);
+            // res.send('error')
+          } else {
+            console.log('Owner received order successfully')
+            // res.status(200).send('Email sent successfully')
+          }
+        })
+
+
       })
       .catch(err => {
         console.log(err)

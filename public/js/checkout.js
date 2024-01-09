@@ -39,37 +39,40 @@ placeOrderBtn.addEventListener('click', () => {
     // }
 
     // Sending the data to the backend
-    fetch('/intasend-checkout', {
-        method: 'POST',
-        headers: {
-            accept: 'application/json',
-            'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-            address: address.address,
-            city: address.city,
-            state: address.state,
-            zipcode: address.zipcode,
-            email: JSON.parse(sessionStorage.user).email,
-            first_name: JSON.parse(sessionStorage.user).name,
-            phone_number: JSON.parse(sessionStorage.user).number,
-            amount: finalPrice,
-        }),
-    })
-        .then((res) => {
-            if (res.ok) {
-                return res.json(); // Parse the JSON response
-            } else {
-                throw new Error('Network response was not ok');
-            }
-        })
-        .then((data) => {
-            const redirectUrl = data.url;
-            window.location.href = redirectUrl;
-        })
-        .catch((err) => console.log('Error:', err));
 
-    sessionStorage.setItem('address', JSON.stringify(address));
+    if (address.address.length) {
+        fetch('/intasend-checkout', {
+            method: 'POST',
+            headers: {
+                accept: 'application/json',
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+                address: address.address,
+                city: address.city,
+                state: address.state,
+                zipcode: address.zipcode,
+                email: JSON.parse(sessionStorage.user).email,
+                first_name: JSON.parse(sessionStorage.user).name,
+                phone_number: JSON.parse(sessionStorage.user).number,
+                amount: finalPrice,
+            }),
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json(); // Parse the JSON response
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .then((data) => {
+                const redirectUrl = data.url;
+                window.location.href = redirectUrl;
+            })
+            .catch((err) => console.log('Error:', err));
+
+        sessionStorage.setItem('address', JSON.stringify(address));
+    }
 })
 
 const getAddress = () => {
