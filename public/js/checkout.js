@@ -5,14 +5,12 @@ window.onload = () => {
 }
 
 
-
 // Delivery dropdown
 const dropdown = document.getElementById('deliveryDropdown')
 dropdown.addEventListener('change', () => {
     deliveryOption = dropdown.value;
     updateBill()
 })
-
 
 
 const placeOrderBtn = document.querySelector('.place-order-btn');
