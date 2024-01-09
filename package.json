@@ -21,6 +21,5 @@
     "intasend-node": "^1.0.7",
     "nodemailer": "^6.9.5",
     "nodemon": "^3.0.2"
-
   }
 }
