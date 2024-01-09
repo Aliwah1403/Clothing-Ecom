@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // Getting date and time order was made
 const getDateTime = () => {
     let date = new Date();
@@ -23,23 +22,15 @@ const getDateTime = () => {
 }
 
 // Order route activated after /success route goes through
-=======
-import { getAddress } from './checkout.js'
-
->>>>>>> ce3c00a77c4728278f7852534340c4d2a4e8f07a
 fetch('/order', {
     method: 'POST',
     headers: new Headers({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({
         order: JSON.parse(localStorage.cart),
         email: JSON.parse(sessionStorage.user).email,
-<<<<<<< HEAD
         name: JSON.parse(sessionStorage.user).name,
         add: JSON.parse(sessionStorage.getItem('address')),
         time: getDateTime(),
-=======
-        add: getAddress(),
->>>>>>> ce3c00a77c4728278f7852534340c4d2a4e8f07a
     })
 }).then(res => {
     console.log("Order saved to firestore")
